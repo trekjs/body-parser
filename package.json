@@ -8,7 +8,15 @@
     "test": "xo && nyc --reporter=lcov ava --no-cache -r babel-register -c 5"
   },
   "repository": "trekjs/body-parser",
-  "keywords": [],
+  "keywords": [
+    "trek",
+    "engine",
+    "middleware",
+    "body-parser",
+    "json",
+    "urlencoded",
+    "body"
+  ],
   "author": "Fangdun Cai <cfddream@gmail.com>",
   "license": "MIT",
   "dependencies": {
