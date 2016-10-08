@@ -22,6 +22,7 @@
   "dependencies": {
     "busboy": "0.2.13",
     "inflation": "2.0.0",
+    "multer": "2.0.0-alpha.2",
     "qs": "6.2.1",
     "raw-body": "2.1.7"
   },

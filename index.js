@@ -56,6 +56,12 @@ Object.defineProperties(bodyParser, {
     configurable: true,
     enumerable: true,
     get: getter('multipart')
+  },
+
+  busboy: {
+    configurable: true,
+    enumerable: true,
+    get: () => require('busboy')
   }
 
 })
