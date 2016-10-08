@@ -41,15 +41,99 @@ start().catch(err => console.log(err))
 
 * `bodyParser(options)`
 
-* `bodyParser.json(options)`
+  `json` `urlencoded` is enabled by default.
 
-* `bodyParser.text(options)`
+  ```js
+  {
+    json: true,
+    urlencoded: true,
+    // custom
+    text: {
+      ...
+    },
+    ...
+  }
+  ```
 
-* `bodyParser.raw(options)`
+* `.json(options)`
 
-* `bodyParser.urlencoded(options)`
+  ```js
+  {
+    limit: '1mb',
+    encoding: 'utf-8',
+    verify: false,
+    type: [
+      'application/json',
+      'application/json-patch+json',
+      'application/vnd.api+json',
+      'application/csp-report'
+    ],
+    detect: false,
+    strict: true,
+    reviver: undefined
+  }
+  ```
 
-* `bodyParser.multipart(options)`
+* `.text(options)`
+
+  ```js
+  {
+    limit: '1mb',
+    encoding: 'utf-8',
+    verify: false,
+    type: 'text/plain',
+    detect: false
+  }
+  ```
+
+* `.raw(options)`
+
+  ```js
+  {
+    limit: '1mb',
+    encoding: null,
+    verify: false,
+    type: 'application/octet-stream',
+    detect: false
+  }
+  ```
+
+* `.urlencoded(options)`
+
+  ```js
+  {
+    limit: '56k',
+    encoding: 'utf-8',
+    verify: false,
+    type: 'application/x-www-form-urlencoded',
+    detect: false,
+    parse
+  }
+  ```
+
+* `.multipart(options)`
+
+    Creates [multer](https://github.com/expressjs/multer/tree/explore-new-api) instance.
+
+    - `.any()`
+
+    - `.array(fieldname[, maxCount])`
+
+    - `.fields(fields)`
+
+      `fields`:
+      ```js
+      [
+        { name: 'avatar', maxCount: 1 },
+        { name: 'gallery', maxCount: 8 }
+      ]
+      ```
+
+    - `.none()`
+
+    - `.single(fieldname)`
+
+* `.busboy`
 
 
 ## Badges
