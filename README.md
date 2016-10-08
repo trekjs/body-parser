@@ -1,6 +1,6 @@
 # body-parser
 
-Body parser for Trek.js.
+Body parsing middleware, supports `json` `text` `raw` `urlencoded` `multipart`.
 
 ## Installation
 
