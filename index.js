@@ -22,49 +22,25 @@ function bodyParser (options) {
 
 Object.defineProperties(bodyParser, {
 
-  defaults: {
-    configurable: true,
-    enumerable: true,
-    get: () => defaults
-  },
+  busboy: define(() => require('busboy')),
 
-  json: {
-    configurable: true,
-    enumerable: true,
-    get: getter('json')
-  },
+  defaults: define(() => defaults),
 
-  text: {
-    configurable: true,
-    enumerable: true,
-    get: getter('text')
-  },
+  json: define(getter('json')),
 
-  urlencoded: {
-    configurable: true,
-    enumerable: true,
-    get: getter('urlencoded')
-  },
+  multipart: define(getter('multipart')),
 
-  raw: {
-    configurable: true,
-    enumerable: true,
-    get: getter('raw')
-  },
+  raw: define(getter('raw')),
 
-  multipart: {
-    configurable: true,
-    enumerable: true,
-    get: getter('multipart')
-  },
+  text: define(getter('text')),
 
-  busboy: {
-    configurable: true,
-    enumerable: true,
-    get: () => require('busboy')
-  }
+  urlencoded: define(getter('urlencoded'))
 
 })
+
+function define (get) {
+  return { configurable: true, enumerable: true, get }
+}
 
 function getter (type) {
   return () => require(`./lib/${type}`)
