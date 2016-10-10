@@ -2,12 +2,21 @@
   "name": "trek-body-parser",
   "version": "0.1.1",
   "description": "Body parsing middleware",
+  "repository": "trekjs/body-parser",
+  "license": "MIT",
+  "author": {
+    "name": "Fangdun Cai",
+    "email": "cfddream@gmail.com",
+    "url": "fundon.me"
+  },
   "main": "index.js",
+  "engines": {
+    "node": ">=6"
+  },
   "scripts": {
     "lint": "xo",
     "test": "xo && nyc --reporter=lcov ava --no-cache -r babel-register -c 5"
   },
-  "repository": "trekjs/body-parser",
   "keywords": [
     "trek",
     "engine",
@@ -15,10 +24,9 @@
     "body-parser",
     "json",
     "urlencoded",
+    "multipart",
     "body"
   ],
-  "author": "Fangdun Cai <cfddream@gmail.com>",
-  "license": "MIT",
   "dependencies": {
     "busboy": "0.2.13",
     "inflation": "2.0.0",
