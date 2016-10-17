@@ -14,7 +14,9 @@ function bodyParser (options) {
 
   const parsers = enabled.map(type => bodyParser[type](options[type]))
 
-  return function parseBody (ctx, next) {
+  return parseBody
+
+  function parseBody (ctx, next) {
     if (undefined !== ctx.req.body) return next()
     return Promise.all(parsers.map(p => p(ctx))).then(next)
   }

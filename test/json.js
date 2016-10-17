@@ -113,7 +113,7 @@ test('should 400 on malformed JSON', async t => {
 test('should 400 when invalid content-length', async t => {
   const app = new Engine()
 
-  app.use(({ req, }, next) => {
+  app.use(({ req }, next) => {
     req.headers['content-length'] = 20 // bad length
     return next()
   })
