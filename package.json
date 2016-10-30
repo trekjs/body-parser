@@ -38,7 +38,7 @@
     "ava": "0.16",
     "babel-plugin-transform-async-to-generator": "6",
     "babel-plugin-transform-es2015-modules-commonjs": "6",
-    "babel-preset-es2015": "6",
+    "babel-preset-es2016": "6",
     "babel-register": "6",
     "nyc": "8.3",
     "request": "2",
@@ -46,18 +46,24 @@
     "trek-engine": "0.5",
     "xo": "0.17"
   },
+  "ava": {
+    "concurrency": 5,
+    "require": "babel-register"
+  },
   "babel": {
     "plugins": [
       "transform-async-to-generator",
       "transform-es2015-modules-commonjs"
     ],
     "presets": [
-      "es2015"
+      "es2016"
     ]
   },
-  "ava": {
-    "concurrency": 5,
-    "require": "babel-register"
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   },
   "xo": {
     "esnext": true,
@@ -97,11 +103,5 @@
       ],
       "yoda": 0
     }
-  },
-  "nyc": {
-    "reporter": [
-      "lcov",
-      "text"
-    ]
   }
 }
