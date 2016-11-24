@@ -35,12 +35,12 @@
     "raw-body": "2.1.7"
   },
   "devDependencies": {
-    "ava": "0.16",
+    "ava": "0.17",
     "babel-plugin-transform-async-to-generator": "6",
     "babel-plugin-transform-es2015-modules-commonjs": "6",
     "babel-preset-es2016": "6",
     "babel-register": "6",
-    "nyc": "8.3",
+    "nyc": "10",
     "request": "2",
     "request-promise": "4",
     "trek-engine": "0.5",
