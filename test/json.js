@@ -114,7 +114,7 @@ test('should 400 when invalid content-length', async t => {
   const app = new Engine()
 
   app.use(({ req }, next) => {
-    req.headers['content-length'] = 20 // bad length
+    req.headers['content-length'] = 20 // Bad length
     return next()
   })
 

@@ -31,7 +31,7 @@
     "busboy": "0.2.14",
     "inflation": "2.0.0",
     "multer": "2.0.0-alpha.6",
-    "qs": "6.3.1",
+    "qs": "^6.4.0",
     "raw-body": "2.2.0"
   },
   "devDependencies": {
@@ -43,8 +43,8 @@
     "nyc": "10",
     "request": "2",
     "request-promise": "4",
-    "trek-engine": "0.5",
-    "xo": "0.17"
+    "trek-engine": "1",
+    "xo": "0.18"
   },
   "ava": {
     "concurrency": 5,
@@ -61,6 +61,7 @@
   },
   "nyc": {
     "reporter": [
+      "html",
       "lcov",
       "text"
     ]
