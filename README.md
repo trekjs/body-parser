@@ -2,7 +2,7 @@
 
 Body parsing middleware, supports `json` `text` `raw` `urlencoded` `multipart`.
 
-Based on [raw-body](https://github.com/stream-utils/raw-body), [busboy](https://github.com/mscdex/busboy), [multer](https://github.com/expressjs/multer/tree/explore-new-api).
+Based on [raw-body](https://github.com/stream-utils/raw-body), [busboy](https://github.com/mscdex/busboy), [multer](https://github.com/expressjs/multer/tree/explore-new-api), [qs](https://github.com/ljharb/qs).
 
 
 ## Installation
