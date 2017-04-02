@@ -21,7 +21,7 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">=6"
+    "node": ">=7"
   },
   "scripts": {
     "lint": "xo",
@@ -44,7 +44,7 @@
     "request": "2",
     "request-promise": "4",
     "trek-engine": "1",
-    "xo": "0.18"
+    "xo": "0.19"
   },
   "ava": {
     "concurrency": 5,
