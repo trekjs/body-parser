@@ -6,8 +6,12 @@ import listen from './helpers/listen'
 
 test('with valid str should parse', async t => {
   const app = new Engine()
+  const parse = bodyParser.text()
 
-  app.use(bodyParser.text())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body

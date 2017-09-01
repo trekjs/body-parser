@@ -1,6 +1,6 @@
 {
   "name": "trek-body-parser",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Body parsing middleware",
   "repository": "trekjs/body-parser",
   "license": "MIT",
@@ -21,42 +21,44 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">=7"
+    "node": ">= 8.0.0"
   },
   "scripts": {
     "lint": "xo",
+    "precommit": "lint-staged",
     "test": "xo && nyc ava"
   },
   "dependencies": {
     "busboy": "0.2.14",
     "inflation": "2.0.0",
     "multer": "2.0.0-alpha.6",
-    "qs": "^6.4.0",
-    "raw-body": "2.2.0"
+    "qs": "6.5.0",
+    "raw-body": "2.3.0"
   },
   "devDependencies": {
-    "ava": "0.18",
-    "babel-plugin-transform-async-to-generator": "6",
-    "babel-plugin-transform-es2015-modules-commonjs": "6",
-    "babel-preset-es2016": "6",
-    "babel-register": "6",
-    "nyc": "10",
-    "request": "2",
-    "request-promise": "4",
+    "ava": "0.22.0",
+    "eslint-config-prettier": "2.3.0",
+    "husky": "0.14.3",
+    "lint-staged": "4.0.4",
+    "nyc": "11.1.0",
+    "prettier": "1.6.1",
+    "request": "2.81.0",
+    "request-promise": "4.2.1",
     "trek-engine": "1",
-    "xo": "0.19"
+    "xo": "0.18.2"
   },
   "ava": {
     "concurrency": 5,
-    "require": "babel-register"
+    "failFast": true,
+    "files": [
+      "test/**/*.js"
+    ]
   },
-  "babel": {
-    "plugins": [
-      "transform-async-to-generator",
-      "transform-es2015-modules-commonjs"
-    ],
-    "presets": [
-      "es2016"
+  "lint-staged": {
+    "*.js": [
+      "xo",
+      "prettier --single-quote --no-semi --write",
+      "git add"
     ]
   },
   "nyc": {
@@ -67,42 +69,6 @@
     ]
   },
   "xo": {
-    "esnext": true,
-    "envs": [
-      "node",
-      "es6"
-    ],
-    "semicolon": false,
-    "space": true,
-    "ignores": [],
-    "rules": {
-      "curly": 0,
-      "import/no-dynamic-require": 0,
-      "import/no-named-as-default": 0,
-      "max-lines": 0,
-      "no-warning-comments": [
-        "error",
-        {
-          "terms": [
-            "todo",
-            "fixme"
-          ],
-          "location": "anywhere"
-        }
-      ],
-      "object-curly-spacing": [
-        "error",
-        "always",
-        {
-          "arraysInObjects": true,
-          "objectsInObjects": true
-        }
-      ],
-      "space-before-function-paren": [
-        2,
-        "always"
-      ],
-      "yoda": 0
-    }
+    "extends": "prettier"
   }
 }

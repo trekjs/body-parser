@@ -6,8 +6,12 @@ import listen from './helpers/listen'
 
 test('should parse JSON', async t => {
   const app = new Engine()
+  const parse = bodyParser.json()
 
-  app.use(bodyParser.json())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body
@@ -30,8 +34,12 @@ test('should parse JSON', async t => {
 
 test('should fail gracefully', async t => {
   const app = new Engine()
+  const parse = bodyParser.json()
 
-  app.use(bodyParser.json())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body
@@ -60,8 +68,12 @@ test('should fail gracefully', async t => {
 
 test('should handle Content-Length: 0', async t => {
   const app = new Engine()
+  const parse = bodyParser.json()
 
-  app.use(bodyParser.json())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body
@@ -82,8 +94,12 @@ test('should handle Content-Length: 0', async t => {
 
 test('should 400 on malformed JSON', async t => {
   const app = new Engine()
+  const parse = bodyParser.json()
 
-  app.use(bodyParser.json())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body
@@ -112,13 +128,17 @@ test('should 400 on malformed JSON', async t => {
 
 test('should 400 when invalid content-length', async t => {
   const app = new Engine()
+  const parse = bodyParser.json()
 
   app.use(({ req }, next) => {
     req.headers['content-length'] = 20 // Bad length
     return next()
   })
 
-  app.use(bodyParser.json())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body
@@ -143,4 +163,40 @@ test('should 400 when invalid content-length', async t => {
 
   t.is(res.statusCode, 400)
   t.true(/content length/.test(res.body))
+})
+
+test('should json body reach the limit size', async t => {
+  const app = new Engine()
+  const parse = bodyParser.json({
+    limit: 10
+  })
+
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
+
+  app.use(({ req, res }) => {
+    res.body = req.body
+  })
+
+  app.on('error', err => {
+    t.true(err !== null)
+  })
+
+  const uri = await listen(app)
+  const res = await request({
+    uri,
+    json: true,
+    method: 'post',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: '{"foo": "bar"}',
+    simple: false,
+    resolveWithFullResponse: true
+  })
+
+  t.is(res.statusCode, 413)
+  t.true(/request entity too large/.test(res.body))
 })

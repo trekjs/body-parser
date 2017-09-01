@@ -1,29 +1,44 @@
+/*!
+ * body-parser
+ * Copyright(c) 2015-2017 Fangdun Cai
+ * MIT Licensed
+ */
+
 'use strict'
 
-module.exports = bodyParser
+module.exports = main
 
 const defaults = {
   json: true,
   urlencoded: true
 }
 
-function bodyParser (options) {
+function main(options) {
   options = Object.assign({}, defaults, options)
 
   const enabled = Object.keys(options).filter(t => options[t])
 
-  const parsers = enabled.map(type => bodyParser[type](options[type]))
+  const parsers = enabled.map(type => main[type](options[type]))
 
-  return parseBody
+  return bodyParser
 
-  function parseBody (ctx, next) {
-    if (undefined !== ctx.req.body) return next()
-    return Promise.all(parsers.map(p => p(ctx))).then(next)
+  async function bodyParser({ req }, next) {
+    if (undefined !== req.body) return next()
+
+    /* eslint no-await-in-loop: 0 */
+    for (const p of parsers) {
+      const raw = await p(req)
+      if (req.bodyParsed) {
+        req.body = raw
+        break
+      }
+    }
+
+    return next()
   }
 }
 
-Object.defineProperties(bodyParser, {
-
+Object.defineProperties(main, {
   busboy: define(() => require('busboy')),
 
   defaults: define(() => defaults),
@@ -37,13 +52,12 @@ Object.defineProperties(bodyParser, {
   text: define(getter('text')),
 
   urlencoded: define(getter('urlencoded'))
-
 })
 
-function define (get) {
+function define(get) {
   return { configurable: true, enumerable: true, get }
 }
 
-function getter (type) {
+function getter(type) {
   return () => require(`./lib/${type}`)
 }

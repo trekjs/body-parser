@@ -62,18 +62,31 @@ start().catch(err => console.log(err))
 
   ```js
   {
+    detect: false,
+    encoding: 'utf8',
     limit: '1mb',
-    encoding: 'utf-8',
-    verify: false,
+    parse: JSON.parse,
+    reviver: undefined,
+    strict: true,
     type: [
       'application/json',
       'application/json-patch+json',
       'application/vnd.api+json',
       'application/csp-report'
     ],
-    detect: false,
-    strict: true,
-    reviver: undefined
+    next(raw, { parse, reviver, strict }) {
+      const empty = raw.length === 0
+      if (strict) {
+        if (empty) return {}
+        if (!STRICT_JSON_REG.test(raw)) {
+          const err = new Error('Invalid JSON, only supports object and array')
+          err.status = 400
+          throw err
+        }
+      }
+      if (empty) return raw
+      return parse(raw, reviver)
+    }
   }
   ```
 
@@ -81,11 +94,10 @@ start().catch(err => console.log(err))
 
   ```js
   {
+    detect: false,
+    encoding: 'utf8',
     limit: '1mb',
-    encoding: 'utf-8',
-    verify: false,
-    type: 'text/plain',
-    detect: false
+    type: 'text/plain'
   }
   ```
 
@@ -93,11 +105,10 @@ start().catch(err => console.log(err))
 
   ```js
   {
-    limit: '1mb',
+    detect: false,
     encoding: null,
-    verify: false,
-    type: 'application/octet-stream',
-    detect: false
+    limit: '1mb',
+    type: 'application/octet-stream'
   }
   ```
 
@@ -105,12 +116,14 @@ start().catch(err => console.log(err))
 
   ```js
   {
-    limit: '56k',
-    encoding: 'utf-8',
-    verify: false,
-    type: 'application/x-www-form-urlencoded',
     detect: false,
-    parse
+    encoding: 'utf8',
+    limit: '56k',
+    parse: qs.parse,
+    type: 'application/x-www-form-urlencoded',
+    next(raw, { parse }) {
+      return parse(raw)
+    }
   }
   ```
 

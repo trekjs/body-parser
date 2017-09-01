@@ -6,8 +6,12 @@ import listen from './helpers/listen'
 
 test('with valid form body should parse', async t => {
   const app = new Engine()
+  const parse = bodyParser.urlencoded()
 
-  app.use(bodyParser.urlencoded())
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
 
   app.use(({ req, res }) => {
     res.body = req.body
