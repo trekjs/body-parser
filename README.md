@@ -50,6 +50,7 @@ start().catch(err => console.log(err))
   {
     json: true,
     urlencoded: true,
+    skip: false,
     // custom
     text: {
       ...

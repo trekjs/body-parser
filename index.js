@@ -1,6 +1,6 @@
 /*!
  * body-parser
- * Copyright(c) 2015-2017 Fangdun Cai
+ * Copyright(c) 2017 Fangdun Cai <cfddream@gmail.com> (https://fundon.me)
  * MIT Licensed
  */
 
@@ -10,11 +10,18 @@ module.exports = main
 
 const defaults = {
   json: true,
-  urlencoded: true
+  urlencoded: true,
+  skip: false
 }
 
 function main(options) {
   options = Object.assign({}, defaults, options)
+
+  const { skip } = options
+
+  if (skip !== false && typeof skip !== 'function') {
+    throw new TypeError('option skip must be function')
+  }
 
   const enabled = Object.keys(options).filter(t => options[t])
 
@@ -22,7 +29,10 @@ function main(options) {
 
   return bodyParser
 
-  async function bodyParser({ req }, next) {
+  async function bodyParser(ctx, next) {
+    if (skip && skip(ctx, options)) return next()
+
+    const { req } = ctx
     if (undefined !== req.body) return next()
 
     /* eslint no-await-in-loop: 0 */
