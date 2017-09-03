@@ -75,7 +75,7 @@ start().catch(err => console.log(err))
       'application/vnd.api+json',
       'application/csp-report'
     ],
-    next(raw, { parse, reviver, strict }) {
+    transform(raw, { parse, reviver, strict }) {
       const empty = raw.length === 0
       if (strict) {
         if (empty) return {}
@@ -122,7 +122,7 @@ start().catch(err => console.log(err))
     limit: '56k',
     parse: qs.parse,
     type: 'application/x-www-form-urlencoded',
-    next(raw, { parse }) {
+    transform(raw, { parse }) {
       return parse(raw)
     }
   }

@@ -65,3 +65,13 @@ test('should parse x-www-form-urlencoded', async t => {
   })
   t.deepEqual(res, { user: 'tobi' })
 })
+
+test('should throw TypeError on options.skip', t => {
+  const error = t.throws(() => {
+    bodyParser({
+      skip: true
+    })
+  }, TypeError)
+
+  t.is(error.message, 'option skip must be function')
+})

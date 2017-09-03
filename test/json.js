@@ -200,3 +200,40 @@ test('should json body reach the limit size', async t => {
   t.is(res.statusCode, 413)
   t.true(/request entity too large/.test(res.body))
 })
+
+test('should return raw when empty and not strict', async t => {
+  const app = new Engine()
+  const parse = bodyParser.json({
+    strict: false
+  })
+
+  app.use(async (ctx, next) => {
+    ctx.req.body = await parse(ctx.req)
+    return next()
+  })
+
+  app.use(({ req, res }) => {
+    res.body = req.body
+    t.is(res.body, '')
+  })
+
+  app.on('error', err => {
+    t.true(err !== null)
+  })
+
+  const uri = await listen(app)
+  const res = await request({
+    uri,
+    json: true,
+    method: 'post',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: undefined,
+    simple: false,
+    resolveWithFullResponse: true
+  })
+
+  t.is(res.statusCode, 200)
+  t.is(res.headers['content-length'], '0')
+})
