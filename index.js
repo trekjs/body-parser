@@ -35,14 +35,19 @@ function main(options) {
     const { req } = ctx
     if (undefined !== req.body) return next()
 
-    /* eslint no-await-in-loop: 0 */
-    for (const p of parsers) {
-      const raw = await p(req)
-      if (req.bodyParsed) {
-        req.body = raw
-        break
-      }
-    }
+    await some(
+      parsers,
+      async p => {
+        const raw = await p(req)
+        const { bodyParsed } = req
+        if (bodyParsed) {
+          req.body = raw
+        }
+        return bodyParsed
+      },
+      parsers.length,
+      0
+    )
 
     return next()
   }
@@ -70,4 +75,10 @@ function define(get) {
 
 function getter(type) {
   return () => require(`./lib/${type}`)
+}
+
+async function some(arr, fun, l = 0, i = 0) {
+  if (i === l) return false
+  if (await fun(arr[i], i)) return true
+  return some(arr, fun, l, ++i)
 }
