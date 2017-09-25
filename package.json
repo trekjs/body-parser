@@ -1,6 +1,6 @@
 {
   "name": "trek-body-parser",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Body parsing middleware",
   "repository": "trekjs/body-parser",
   "license": "MIT",
